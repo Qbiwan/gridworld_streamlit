@@ -9,23 +9,12 @@ class Maze:
         self.grid = None
         self.reset_grid()
 
-    def set_wall(self, wall_list):
-        shape = (self.num_rows, self.num_cols)
-        grid = (np.array(wall_list)).reshape(shape)
-        self.grid = grid
-
     def build_wall(self, mask, filled=1):
-        self.grid = np.ma.array(self.grid, mask=mask).filled(filled)    
+        self.grid = np.ma.array(self.grid, mask=mask).filled(filled)
 
     def reset_grid(self):
         grid = np.zeros((self.num_rows, self.num_cols))
-        # grid[0:4, 5] = 1
-        # grid[2, 2:6] = 1
-        # grid[3, [2, 5]] = 1
-        # grid[5, :5] = 1
         self.grid = grid
-        # self.robot = (0,0)
-        # self.update_robot()
 
     def update_robot(self):
         self.grid[self.robot] = 2

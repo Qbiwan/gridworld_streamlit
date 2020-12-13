@@ -5,31 +5,32 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-
-a = [0, 0, 0, 0, 0, 0,
-     0, 0, 1, 1, 1, 1,
-     0, 0, 1, 0, 0, 1,
-     0, 0, 0, 0, 0, 0,
-     0, 0, 0, 0, 0, 0,
-     0, 1, 1, 1, 1, 2]
+from PIL import Image
 
 st.set_page_config(layout="wide")
-col1 = st.sidebar
-col2, col3 = st.beta_columns([5,5])
 
-with col1:
-    st.subheader("User Input Features")
-    num_rows = st.selectbox("Number of rows", list((range(0, 10))), 6)
-    num_cols = st.selectbox("Number of columns", list((range(0, 10))), 6)
+
+
+st.title("Reinforcement Learning")
+st.subheader("Solving gridworld through value iteration")
+image = Image.open('image/value_iteration_image.png')
+st.image(image, width=500)
+col1 = st.sidebar
+col2, col3 = st.beta_columns([5, 5])
+
+num_rows = 6
+num_cols = 6
+initial_wall = [8, 9, 10, 11, 14, 17, 23, 20, 31, 32, 33, 34]
 total_range = np.arange(num_rows*num_cols).reshape(num_rows,
                                                    num_cols
                                                    ).astype(np.float)
 
-select_wall = col1.multiselect("Build wall",
+col1.subheader("Build new wall")
+col1.write("Add or delete a cell to change the wall")
+select_wall = col1.multiselect("But make sure there is at least one path back home :)",
                                list((range(1, (num_rows*num_cols)-1))),
-                               [8, 9, 10, 11, 14, 17, 23, 20, 31, 32, 33, 34]
+                               initial_wall
                                )
-
 
 wall_row = [i // num_rows for i in select_wall]
 wall_col = [i % num_rows for i in select_wall]
@@ -49,42 +50,31 @@ ax = sns.heatmap(df,
                  )
 ax.set_facecolor("black")
 col1.pyplot(f)
+col1.subheader("Change the length of training episodes")
+col1.write("Longer episodes provide better results but take more time.")
+episodes = col1.slider('Default value is good enough for most situations', 1000, 8000, 3000)
 
-#col2.write(mask)
+
+
+
+
+col2.header("Initial State Value")
 maze = Maze(num_rows, num_cols)
-# agent = Agent(maze)
-# f, ax = agent.pretraining_heatmap()
-# col2.pyplot(f)
-
 maze.build_wall(mask=mask)
-#col2.write(maze.grid)
 agent = Agent(maze)
 f, ax = agent.pretraining_heatmap()
+yticks = ["Start", "", "", "", "", ""]
+xticks = ["", "", "", "", "", "Home"]
+ax.set_xticklabels(xticks)
+ax.set_yticklabels(yticks)
 col2.pyplot(f)
 
-#col3.pyplot(maze.grid)
-#maze = Maze(6, 6)
-#maze.set_wall(a)
-
-# agent = Agent(maze)
-# f, ax = agent.pretraining_heatmap()
-# col2.pyplot(f)
-
-#agent.learn()
-#f2, ax2 = agent.post_training_heatmap()
-#col3.pyplot(f2)
-
 if col2.button('Start Reinforcement Learning'):
-    col2.header('Training bot to find shortest path...')
-    # progress_bar = col2.progress(0)
-    # status_text = st.empty()
-    # status_text.text("Starting training...")
-
-    # for i in range(100):
-    #     progress_bar.progress(i + 1)
-    #     agent.learn_one_episode()
-
-    agent.learn()
+    col2.subheader('Training in progress...')
+    agent.learn(episodes=episodes)
     f2, ax2 = agent.post_training_heatmap()
+    ax2.set_xticklabels(xticks)
+    ax2.set_yticklabels(yticks)
+    col3.header("Final State Value")
     col3.pyplot(f2)
-
+    col3.subheader("Shortest path is shown in blue")

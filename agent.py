@@ -4,6 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
+
 class Agent:
     def __init__(self, maze):
         self.action_space = ["U", "D", "L", "R"]
@@ -74,12 +75,11 @@ class Agent:
             target += rewards_reverse[idx]
             self.G[state] += self.alpha*(target - self.G[state])
 
-    def learn(self, episodes=5000, max_count=1000):
+    def learn(self, episodes=3000, max_count=1000):
         self.init_G()
         for episode in range(episodes):
-            if episode % 500 == 0:
+            if episode % 300 == 0:
                 self.random_threshold *= 0.9
-            if episode % 5000 == 0:
                 self.alpha *= 0.9
             self.maze.robot = (0, 0)
             self.memory = [(0, 0)]
@@ -97,9 +97,8 @@ class Agent:
                     self.maze.robot = (5, 5)
             self.update_G()
         self.G = np.around(self.G, 2)
-        #print(self.G)
 
-    def learn_one_episode(self,max_count=1000):
+    def learn_one_episode(self, max_count=1000):
         self.maze.robot = (0, 0)
         self.memory = [(0, 0)]
         self.rewards = [0.0]
