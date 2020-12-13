@@ -1,7 +1,7 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
 
@@ -162,20 +162,8 @@ class Agent:
 
         return f, ax
 
-    def plot_shortest_path(self, f, ax):
-        best_path = self.get_shortest_path()
-        for rect in best_path:
-            ax.add_patch(
-                         Rectangle(rect, 1, 1,
-                                   fill=False,
-                                   edgecolor='blue',
-                                   lw=3
-                                   )
-                         )
-        return f, ax
-
     def get_shortest_path(self):
-        best_path = [(0,0)]
+        best_path = [(0, 0)]
         self.maze.robot = (0, 0)
         row, col = self.maze.robot
         while (row, col) != (5, 5):

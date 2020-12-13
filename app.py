@@ -1,16 +1,14 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from PIL import Image
+
 import streamlit as st
 from agent import Agent
 from maze import Maze
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
-from PIL import Image
 
 st.set_page_config(layout="wide")
-
-
-
 st.title("Reinforcement Learning")
 st.subheader("Solving gridworld through value iteration")
 image = Image.open('image/value_iteration_image.png')
@@ -24,10 +22,9 @@ initial_wall = [8, 9, 10, 11, 14, 17, 23, 20, 31, 32, 33, 34]
 total_range = np.arange(num_rows*num_cols).reshape(num_rows,
                                                    num_cols
                                                    ).astype(np.float)
-
 col1.subheader("Build new wall")
 col1.write("Add or delete a cell to change the wall")
-select_wall = col1.multiselect("But make sure there is at least one path back home :)",
+select_wall = col1.multiselect("But make sure there is at least one path back home:)",
                                list((range(1, (num_rows*num_cols)-1))),
                                initial_wall
                                )
@@ -53,10 +50,6 @@ col1.pyplot(f)
 col1.subheader("Change the length of training episodes")
 col1.write("Longer episodes provide better results but take more time.")
 episodes = col1.slider('Default value is good enough for most situations', 1000, 8000, 3000)
-
-
-
-
 
 col2.header("Initial State Value")
 maze = Maze(num_rows, num_cols)
