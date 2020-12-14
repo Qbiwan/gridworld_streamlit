@@ -67,7 +67,7 @@ if col2.button('Start Reinforcement Learning'):
     agent.learn(episodes=episodes)
     end = time.time()
     timetaken = end - start
-    col2.write("Time taken:", timetaken)
+    col2.write(f"Time taken: {timetaken}")
 
     if timetaken < 4.0:
         f2, ax2 = agent.post_training_heatmap()
