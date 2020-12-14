@@ -75,10 +75,11 @@ class Agent:
             target += rewards_reverse[idx]
             self.G[state] += self.alpha*(target - self.G[state])
 
-    def learn(self, episodes=3000, max_count=1000):
+    def learn(self, episodes=1000, max_count=500):
         self.init_G()
+        divider = episodes//10
         for episode in range(episodes):
-            if episode % 300 == 0:
+            if episode % divider == 0:
                 self.random_threshold *= 0.9
                 self.alpha *= 0.9
             self.maze.robot = (0, 0)
@@ -97,23 +98,6 @@ class Agent:
                     self.maze.robot = (5, 5)
             self.update_G()
         self.G = np.around(self.G, 2)
-
-    def learn_one_episode(self, max_count=1000):
-        self.maze.robot = (0, 0)
-        self.memory = [(0, 0)]
-        self.rewards = [0.0]
-        count = 0
-        while not self.maze.is_game_over():
-            count += 1
-            self.maze.grid[self.maze.robot] = 0
-            self.maze.robot = self.BestActionPlusRandom()
-            self.maze.grid[self.maze.robot] = 2
-            self.memory.append(tuple(self.maze.robot))
-            reward = 0 if self.maze.is_game_over() else -1
-            self.rewards.append(reward)
-            if count >= max_count:
-                self.maze.robot = (5, 5)
-        self.update_G()
 
     def pretraining_heatmap(self):
         f, ax = plt.subplots(figsize=(5, 3))
