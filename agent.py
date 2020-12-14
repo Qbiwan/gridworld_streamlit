@@ -13,6 +13,7 @@ class Agent:
         self.random_threshold = 0.9
         self.alpha = 0.9
         self.init_G()
+        self.succeeded = False
 
     def init_G(self):
         self.G = np.random.random((self.maze.num_rows,
@@ -93,9 +94,11 @@ class Agent:
                 self.maze.grid[self.maze.robot] = 2
                 self.memory.append(tuple(self.maze.robot))
                 reward = 0 if self.maze.is_game_over() else -1
+                if self.maze.is_game_over():
+                    self.succeeded = True
                 self.rewards.append(reward)
+
                 if count >= max_count:
-                    self.maze.robot = (5, 5)
                     break
             self.update_G()
         self.G = np.around(self.G, 2)

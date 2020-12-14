@@ -1,4 +1,5 @@
 import time
+import gc
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -69,7 +70,7 @@ if col2.button('Start Reinforcement Learning'):
     timetaken = end - start
     col2.write(f"Time taken: {timetaken}")
 
-    if timetaken < 4.0:
+    if agent.succeeded:
         f2, ax2 = agent.post_training_heatmap()
         ax2.set_xticklabels(xticks)
         ax2.set_yticklabels(yticks)
@@ -77,4 +78,8 @@ if col2.button('Start Reinforcement Learning'):
         col3.pyplot(f2)
         col3.subheader("Shortest path is shown in blue")
     else:
-        col2.write("Training is taking too long. You might have block every path back home. Consider redoing your wall.")
+        col2.write("You might have block every path back home. Consider redoing your wall.")
+
+del agent
+del maze
+gc.collect()
