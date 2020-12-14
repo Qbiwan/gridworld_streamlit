@@ -1,7 +1,10 @@
+import time
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+
 import streamlit as st
 from agent import Agent
 from maze import Maze
@@ -60,11 +63,18 @@ col2.pyplot(f)
 
 if col2.button('Start Reinforcement Learning'):
     col2.subheader('Training in progress...')
+    start = time.time()
     agent.learn(episodes=episodes)
-    f2, ax2 = agent.post_training_heatmap()
-    ax2.set_xticklabels(xticks)
-    ax2.set_yticklabels(yticks)
-    col3.header("Final State Value")
-    col3.pyplot(f2)
-    col3.subheader("Shortest path is shown in blue")
+    end = time.time()
+    timetaken = end - start
+    col2.write("Time taken:", timetaken)
 
+    if timetaken < 4.0:
+        f2, ax2 = agent.post_training_heatmap()
+        ax2.set_xticklabels(xticks)
+        ax2.set_yticklabels(yticks)
+        col3.header("Final State Value")
+        col3.pyplot(f2)
+        col3.subheader("Shortest path is shown in blue")
+    else:
+        col2.write("Training is taking too long. You might have block every path back home. Consider redoing your wall.")

@@ -96,6 +96,7 @@ class Agent:
                 self.rewards.append(reward)
                 if count >= max_count:
                     self.maze.robot = (5, 5)
+                    break
             self.update_G()
         self.G = np.around(self.G, 2)
 
