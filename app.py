@@ -2,8 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from PIL import Image
-
 import streamlit as st
 from agent import Agent
 from maze import Maze
@@ -11,8 +9,6 @@ from maze import Maze
 st.set_page_config(layout="wide")
 st.title("Reinforcement Learning")
 st.subheader("Solving gridworld through value iteration")
-image = Image.open('image/value_iteration_image.png')
-st.image(image, width=500)
 col1 = st.sidebar
 col2, col3 = st.beta_columns([5, 5])
 
@@ -71,3 +67,4 @@ if col2.button('Start Reinforcement Learning'):
     col3.header("Final State Value")
     col3.pyplot(f2)
     col3.subheader("Shortest path is shown in blue")
+
