@@ -1,7 +1,7 @@
 # Reinforcement Learning
 ### Solving gridworld through value iteration
 
-![demo](image/demo.gif)
+![demo](https://raw.githubusercontent.com/Qbiwan/PotholeDectector/main/Demo/demo_gridworld_streamlit.gif)
 
 
 The app is live at streamlit sharing. Click the icon below:
