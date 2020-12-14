@@ -75,7 +75,7 @@ class Agent:
             target += rewards_reverse[idx]
             self.G[state] += self.alpha*(target - self.G[state])
 
-    def learn(self, episodes=1000, max_count=500):
+    def learn(self, episodes=500, max_count=500):
         self.init_G()
         divider = episodes//10
         for episode in range(episodes):
