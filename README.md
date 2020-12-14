@@ -1,6 +1,7 @@
 # Reinforcement Learning
 ### Solving gridworld through value iteration
 
+![demo](image/demo.gif)
 
 
 The app is live at streamlit sharing. Click the icon below:
