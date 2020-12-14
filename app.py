@@ -47,9 +47,9 @@ ax = sns.heatmap(df,
                  )
 ax.set_facecolor("black")
 col1.pyplot(f)
-col1.subheader("Change the length of training episodes")
+col1.subheader("Change the number of training episodes")
 col1.write("Longer episodes provide better results but take more time.")
-episodes = col1.slider('Default value is good enough for most situations', 1000, 8000, 3000)
+episodes = col1.slider('Default value is good enough for most situations', 100, 3000, 1000)
 
 col2.header("Initial State Value")
 maze = Maze(num_rows, num_cols)
